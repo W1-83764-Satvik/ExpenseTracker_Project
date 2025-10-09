@@ -1,0 +1,16 @@
+# Ignore everything by default
+*
+
+# Keep structure
+!.gitignore
+!README.md
+!backend/**
+!frontend/**
+
+# Global ignores
+*.log
+.env
+application.properties
+.idea/
+.gradle/
+build/
