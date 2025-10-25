@@ -25,18 +25,40 @@ repositories {
 }
 
 dependencies {
+	// 🗃️ ORM & Database Support (JPA + Hibernate)
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+	// 🔐 Spring Security (Authentication, Authorization, Password Encoding)
 	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+	// 🌐 Spring Web (REST APIs, Controllers, JSON support)
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	// 💬 Kafka Integration (for producing & consuming messages)
 	implementation 'org.springframework.kafka:spring-kafka'
+
+	// ⚡ Lombok (to reduce boilerplate: getters, setters, constructors, etc.)
 	compileOnly 'org.projectlombok:lombok'
-	runtimeOnly 'com.mysql:mysql-connector-j'
 	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.kafka:spring-kafka-test'
-	testImplementation 'org.springframework.security:spring-security-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	// 🐬 MySQL Database Driver (connect Spring Data JPA to MySQL)
+	runtimeOnly 'com.mysql:mysql-connector-j'
+
+	// 🧪 Testing Frameworks
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'      // Spring Boot testing support (JUnit, Mockito)
+	testImplementation 'org.springframework.kafka:spring-kafka-test'            // Kafka test utilities
+	testImplementation 'org.springframework.security:spring-security-test'      // Security test helpers
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'                // JUnit platform runtime
+
+	// 🔑 JWT (JSON Web Token) support using JJWT library
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'      // main JWT API
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'        // runtime implementation
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'     // integrates JWT with Jackson for JSON parsing
+
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
 }
+
 
 tasks.named('test') {
 	useJUnitPlatform()
