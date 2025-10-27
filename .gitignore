@@ -1,7 +1,4 @@
-# ==========================================================
 # === BACKEND (Spring Boot microservices) ===
-# ==========================================================
-# Ignore build outputs and environment files
 backend/**/target/
 backend/**/build/
 backend/**/.gradle/
@@ -11,51 +8,27 @@ backend/**/.settings/
 backend/**/logs/
 backend/**/out/
 backend/**/bin/
-
-# Ignore system and temporary files
 backend/**/*.log
 backend/**/*.iml
 backend/**/*.DS_Store
-backend/**/*.class
-
-# Ignore application config secrets
 backend/**/application.properties
 backend/**/application.yml
 
-# ==========================================================
 # === FRONTEND (React + Vite) ===
-# ==========================================================
-# Dependency and build artifacts
 frontend/expense_tracker/node_modules/
 frontend/expense_tracker/dist/
-frontend/expense_tracker/.vite/
-frontend/expense_tracker/.parcel-cache/
-
-# Environment and debug logs
 frontend/expense_tracker/.env*
 frontend/expense_tracker/npm-debug.log*
 frontend/expense_tracker/yarn-*.log
-frontend/expense_tracker/pnpm-debug.log*
 
-# System files
-frontend/expense_tracker/.DS_Store
-frontend/expense_tracker/*.iml
-
-# ==========================================================
-# === GLOBAL (applies everywhere) ===
-# ==========================================================
+# === GLOBAL ===
 *.log
 *.iml
 .DS_Store
 Thumbs.db
 .idea/
 .vscode/
-.env
-*.tmp
 
-# ==========================================================
-# === KEEP (force-track) ===
-# ==========================================================
+# === KEEP ===
 !.gitignore
 !README.md
-
