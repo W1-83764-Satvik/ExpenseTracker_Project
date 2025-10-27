@@ -1,20 +1,36 @@
-# Ignore everything by default
-*
+# === BACKEND (Spring Boot) ===
+backend/target/
+backend/build/
+backend/.gradle/
+backend/.idea/
+backend/.vscode/
+backend/.settings/
+backend/logs/
+backend/*.log
+backend/*.iml
+backend/.DS_Store
+backend/application.properties
+backend/application.yml
 
-# Keep structure
+# === FRONTEND (React + Vite) ===
+frontend/expense_tracker/node_modules/
+frontend/expense_tracker/dist/
+frontend/expense_tracker/.env
+frontend/expense_tracker/.env.local
+frontend/expense_tracker/.env.production.local
+frontend/expense_tracker/.env.development.local
+frontend/expense_tracker/npm-debug.log*
+frontend/expense_tracker/yarn-debug.log*
+frontend/expense_tracker/yarn-error.log*
+
+# === GLOBAL ===
+*.log
+*.iml
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# === KEEP THESE ===
 !.gitignore
 !README.md
-!backend/**
-!frontend/**
-
-# Global ignore patterns
-*.log
-.env
-application.properties
-.idea/
-.gradle/
-build/
-MedEase project/
-# Ignore log files
-*.log
-logs/
