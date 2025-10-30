@@ -15,11 +15,12 @@ backend/**/application.properties
 backend/**/application.yml
 
 # === FRONTEND (React + Vite) ===
-frontend/expense_tracker/node_modules/
-frontend/expense_tracker/dist/
-frontend/expense_tracker/.env*
-frontend/expense_tracker/npm-debug.log*
-frontend/expense_tracker/yarn-*.log
+frontend/node_modules/
+frontend/dist/
+frontend/.env*
+frontend/npm-debug.log*
+frontend/yarn-*.log
+
 
 # === GLOBAL ===
 *.log
