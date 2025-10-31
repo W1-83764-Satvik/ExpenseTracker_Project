@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -13,8 +14,9 @@ import java.math.BigDecimal;
 public class AddExpenseRequestDto {
 
     private String title;
-
     private BigDecimal amount;
-
-    private String desc;
+    private String description;
+    private String category;
+    private LocalDate date;
+    private String userEmail;
 }

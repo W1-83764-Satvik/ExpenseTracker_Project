@@ -11,8 +11,6 @@ backend/**/bin/
 backend/**/*.log
 backend/**/*.iml
 backend/**/*.DS_Store
-backend/**/application.properties
-backend/**/application.yml
 
 # === FRONTEND (React + Vite) ===
 frontend/node_modules/
