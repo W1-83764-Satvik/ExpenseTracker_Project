@@ -2,6 +2,8 @@ package com.satvik.expense_service.exception.handler;
 
 import com.satvik.expense_service.dto.ResponceEntityDto.ApiResponse;
 import com.satvik.expense_service.exception.exception_classes.CategoryNotFoundException;
+import com.satvik.expense_service.exception.exception_classes.ExpenseNotFoundException;
+import com.satvik.expense_service.exception.exception_classes.ExpenseSaveException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
@@ -30,6 +32,30 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
+
+    @ExceptionHandler(ExpenseSaveException.class)
+    public ResponseEntity<ApiResponse<String>> handleExpenseSaveException(ExpenseSaveException ex) {
+        ApiResponse<String> response = ApiResponse.<String>builder()
+                .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .message(ex.getMessage())
+                .data(null)
+                .timestamp(LocalDateTime.now())
+                .build();
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+    }
+
+    @ExceptionHandler(ExpenseNotFoundException.class)
+    public ResponseEntity<ApiResponse<String>> handleExpenseNotFoundException(ExpenseNotFoundException ex) {
+        log.error("Expense not found: {}", ex.getMessage());
+        ApiResponse<String> response = ApiResponse.<String>builder()
+                .status(HttpStatus.NOT_FOUND.value())
+                .message(ex.getMessage())
+                .data(null)
+                .timestamp(LocalDateTime.now())
+                .build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiResponse<List<String>>> handleValidationException(MethodArgumentNotValidException ex) {

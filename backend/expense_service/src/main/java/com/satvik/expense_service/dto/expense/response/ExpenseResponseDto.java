@@ -1,18 +1,18 @@
-package com.satvik.expense_service.dto.request;
+package com.satvik.expense_service.dto.expense.response;
 
-import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AddExpenseRequestDto {
-
+public class ExpenseResponseDto {
+    private Long id;
     private String title;
     private BigDecimal amount;
     private String description;
