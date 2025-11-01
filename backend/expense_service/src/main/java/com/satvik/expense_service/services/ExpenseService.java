@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -109,6 +110,51 @@ public class ExpenseService {
                 .build();
     }
 
+    public List<ExpenseResponseDto> getAllExpensesByUserEmail(String email) {
+        List<Expense> expenses = expenseRepository.findByUserEmail(email);
+
+        if (expenses.isEmpty()) {
+            log.info("No expenses found for user: {}", email);
+            return List.of();
+        }
+
+        return expenses.stream()
+                .map(expense -> ExpenseResponseDto.builder()
+                        .id(expense.getId())
+                        .title(expense.getTitle())
+                        .amount(expense.getAmount())
+                        .category(expense.getCategory().getName())
+                        .userEmail(expense.getUserEmail())
+                        .date(expense.getDate())
+                        .description(expense.getDescription())
+                        .build())
+                .toList();
+    }
+
+
+    public ExpenseResponseDto getExpenseById(Long id) {
+        Expense expense = expenseRepository.findById(id)
+                .orElseThrow(() -> new ExpenseNotFoundException("Expense not found with id: " + id));
+
+        return ExpenseResponseDto.builder()
+                .id(expense.getId())
+                .title(expense.getTitle())
+                .amount(expense.getAmount())
+                .category(expense.getCategory().getName())
+                .userEmail(expense.getUserEmail())
+                .date(expense.getDate())
+                .description(expense.getDescription())
+                .build();
+    }
+
+    public void deleteExpenseById(Long id) {
+        try {
+            expenseRepository.deleteById(id);
+        } catch (DataIntegrityViolationException ex) {
+            log.error("Data integrity violation while getting expense by id : {}", id, ex);
+            throw new ExpenseSaveException("Invalid data — please check inputs");
+        }
+    }
 
 }
 

@@ -17,6 +17,5 @@ public class ExpenseRequestDto {
     private BigDecimal amount;
     private String description;
     private String category;
-    private LocalDate date;
     private String userEmail;
 }
