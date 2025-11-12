@@ -4,8 +4,8 @@ import com.satvik.auth_service.dto.authRequest.UserInfoDto;
 import com.satvik.auth_service.entities.RefreshToken;
 import com.satvik.auth_service.entities.UserInfo;
 import com.satvik.auth_service.enums.Roles;
-import com.satvik.auth_service.exceptions.InvalidTokenException;
-import com.satvik.auth_service.exceptions.UserAlreadyExistsException;
+import com.satvik.auth_service.exception.exception_classes.InvalidTokenException;
+import com.satvik.auth_service.exception.exception_classes.UserAlreadyExistException;
 import com.satvik.auth_service.repository.RefreshTokenRepository;
 import com.satvik.auth_service.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -33,7 +33,7 @@ public class AuthService {
 
         if (userRepository.findByEmail(email).isPresent()) {
             log.warn("Registration failed — email already exists: {}", email);
-            throw new UserAlreadyExistsException("Email already registered");
+            throw new UserAlreadyExistException("Email already registered");
         }
 
         String encodedPassword = passwordEncoder.encode(userInfoDto.getPassword());

@@ -6,13 +6,12 @@ import com.satvik.auth_service.dto.authResponse.JwtResponseDto;
 import com.satvik.auth_service.dto.responseentitydto.ApiResponse;
 import com.satvik.auth_service.entities.RefreshToken;
 import com.satvik.auth_service.entities.UserInfo;
-import com.satvik.auth_service.exceptions.InvalidTokenException;
-import com.satvik.auth_service.exceptions.UserAlreadyExistsException;
 import com.satvik.auth_service.services.RefreshTokenService;
 import com.satvik.auth_service.services.TokenService;
 import com.satvik.auth_service.services.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -28,6 +27,7 @@ import java.time.LocalDateTime;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/auth/v1")
+@Slf4j
 public class AuthController {
 
     private final AuthService authService;
@@ -35,15 +35,12 @@ public class AuthController {
     private final TokenService tokenService;
     private final AuthenticationManager authenticationManager;
 
-    private static final Logger log = LoggerFactory.getLogger(AuthController.class);
-
     // SIGNUP API
     @PostMapping("/signup")
     public ResponseEntity<ApiResponse<JwtResponseDto>> signUp(@Valid @RequestBody UserInfoDto userInfoDto) {
         LocalDateTime now = LocalDateTime.now();
         log.info("Received signup request for email: {}", userInfoDto.getEmail());
 
-        try {
             // Register new user
             authService.signUpUser(userInfoDto);
             log.info("User registered successfully: {}", userInfoDto.getEmail());
@@ -69,24 +66,6 @@ public class AuthController {
 
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
 
-        } catch (UserAlreadyExistsException e) {
-            log.warn("Signup failed — user already exists: {}", userInfoDto.getEmail());
-            ApiResponse<JwtResponseDto> errorResponse = ApiResponse.<JwtResponseDto>builder()
-                    .status(HttpStatus.CONFLICT.value())
-                    .message(e.getMessage())
-                    .timestamp(now)
-                    .build();
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
-
-        } catch (Exception e) {
-            log.error("Signup failed for email: {}", userInfoDto.getEmail(), e);
-            ApiResponse<JwtResponseDto> errorResponse = ApiResponse.<JwtResponseDto>builder()
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                    .message("Internal server error during registration")
-                    .timestamp(now)
-                    .build();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
-        }
     }
 
     // SIGNIN API
@@ -95,7 +74,6 @@ public class AuthController {
         LocalDateTime now = LocalDateTime.now();
         log.info("Received login request for email: {}", loginRequestDto.getEmail());
 
-        try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             loginRequestDto.getEmail(),
@@ -135,25 +113,6 @@ public class AuthController {
 
             log.info("Login successful for user: {}", user.getEmail());
             return ResponseEntity.ok(successResponse);
-
-        } catch (BadCredentialsException e) {
-            log.warn("Invalid login attempt for email: {}", loginRequestDto.getEmail());
-            ApiResponse<JwtResponseDto> errorResponse = ApiResponse.<JwtResponseDto>builder()
-                    .status(HttpStatus.UNAUTHORIZED.value())
-                    .message("Invalid email or password")
-                    .timestamp(now)
-                    .build();
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
-
-        } catch (Exception e) {
-            log.error("Unexpected error during login for email: {}", loginRequestDto.getEmail(), e);
-            ApiResponse<JwtResponseDto> errorResponse = ApiResponse.<JwtResponseDto>builder()
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                    .message("Internal server error during login")
-                    .timestamp(now)
-                    .build();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
-        }
     }
 
     // LOGOUT API
@@ -162,7 +121,6 @@ public class AuthController {
         LocalDateTime now = LocalDateTime.now();
         log.info("Received logout request with refresh token: {}", refreshToken);
 
-        try {
             authService.logout(refreshToken);
             log.info("Logout successful for refresh token: {}", refreshToken);
 
@@ -175,23 +133,5 @@ public class AuthController {
                             .build()
             );
 
-        } catch (InvalidTokenException e) {
-            log.warn("Invalid or expired refresh token during logout: {}", refreshToken);
-            ApiResponse<String> apiResponse = ApiResponse.<String>builder()
-                    .status(HttpStatus.UNAUTHORIZED.value())
-                    .data(e.getMessage())
-                    .timestamp(now)
-                    .build();
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(apiResponse);
-
-        } catch (Exception e) {
-            log.error("Unexpected error during logout for refresh token: {}", refreshToken, e);
-            ApiResponse<String> errorResponse = ApiResponse.<String>builder()
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                    .message("Internal server error during logout")
-                    .timestamp(now)
-                    .build();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
-        }
     }
 }

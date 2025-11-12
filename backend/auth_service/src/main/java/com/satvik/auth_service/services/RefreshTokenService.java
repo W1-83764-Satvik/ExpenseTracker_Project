@@ -2,12 +2,12 @@ package com.satvik.auth_service.services;
 
 import com.satvik.auth_service.entities.RefreshToken;
 import com.satvik.auth_service.entities.UserInfo;
+import com.satvik.auth_service.exception.exception_classes.UserNotFoundException;
 import com.satvik.auth_service.repository.RefreshTokenRepository;
 import com.satvik.auth_service.repository.UserRepository;
 import com.satvik.auth_service.security.JwtConfig;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -25,7 +25,7 @@ public class RefreshTokenService {
     @Transactional
     public RefreshToken createRefreshToken(String email) {
         UserInfo user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
+                .orElseThrow(() -> new UserNotFoundException("User not found with email: " + email));
 
         refreshTokenRepository.deleteByUser(user);
 

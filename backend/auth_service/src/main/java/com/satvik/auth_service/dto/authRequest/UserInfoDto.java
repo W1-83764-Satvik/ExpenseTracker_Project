@@ -22,6 +22,7 @@ public class UserInfoDto {
     @NotBlank(message = "Email cannot be blank")
     @Email(message = "Invalid email format")
     @Size(max = 255, message = "Email must not exceed 255 characters")
+
     private String email;
 
     @NotBlank(message = "Password cannot be blank")

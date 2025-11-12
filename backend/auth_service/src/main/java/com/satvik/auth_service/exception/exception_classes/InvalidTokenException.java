@@ -1,4 +1,4 @@
-package com.satvik.auth_service.exceptions;
+package com.satvik.auth_service.exception.exception_classes;
 
 public class InvalidTokenException extends RuntimeException{
 

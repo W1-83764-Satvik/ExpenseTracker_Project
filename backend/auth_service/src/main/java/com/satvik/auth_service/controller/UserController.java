@@ -26,7 +26,7 @@ public class UserController {
 
     @GetMapping("/validate-token")
     public ResponseEntity<ApiResponse<String>> validateToken(@RequestParam String token) {
-        try {
+
 
             String username = tokenService.extractName(token);
 
@@ -56,16 +56,6 @@ public class UserController {
 
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
             }
-
-        } catch (Exception e) {
-            ApiResponse<String> response = ApiResponse.<String>builder()
-                    .status(HttpStatus.UNAUTHORIZED.value())
-                    .message("Token validation failed: " + e.getMessage())
-                    .timestamp(LocalDateTime.now())
-                    .build();
-
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
-        }
     }
 
 }

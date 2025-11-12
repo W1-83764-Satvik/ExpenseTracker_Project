@@ -20,7 +20,7 @@ public class CategoryController {
 
     private final CategoryService categoryService;
 
-    @PostMapping
+    @PostMapping("/addcategory")
     public ResponseEntity<ApiResponse<CategoryResponseDto>> addCategory(@RequestBody AddCategoryRequestDto dto) {
         CategoryResponseDto created = categoryService.addCategory(dto);
         ApiResponse<CategoryResponseDto> response = ApiResponse.<CategoryResponseDto>builder()
@@ -31,7 +31,7 @@ public class CategoryController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping
+    @GetMapping("/getallcategories")
     public ResponseEntity<ApiResponse<List<CategoryResponseDto>>> getAllCategories() {
         List<CategoryResponseDto> list = categoryService.getAllCategories();
         ApiResponse<List<CategoryResponseDto>> response = ApiResponse.<List<CategoryResponseDto>>builder()
