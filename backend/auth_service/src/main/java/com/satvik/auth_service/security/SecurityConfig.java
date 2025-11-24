@@ -30,7 +30,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         auth -> auth.requestMatchers("/check", "/auth/v1/signup", "/auth/v1/signin", "/jwt/v1/refresh", "/jwt/v1/validate-token")
                                 .permitAll()
-                                .anyRequest()
+                                .requestMatchers("/auth/v1/me", "/auth/v1/logout")
                                 .authenticated()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

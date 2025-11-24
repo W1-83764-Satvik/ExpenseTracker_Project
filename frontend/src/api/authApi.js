@@ -1,19 +1,25 @@
-import apiClient from './axios/apiClient';
+import apiClient from "./axios/axiosInstance";
+import { AUTH_ENDPOINTS } from "../utils/constants";
 
 const authApi = {
   login: async (credentials) => {
-    const response = await apiClient.post('/auth/login', credentials);
-    return response.data;
+    const res = await apiClient.post(AUTH_ENDPOINTS.SIGNIN, credentials);
+    return res.data.data;
   },
 
-  signup: async (userData) => {
-    const response = await apiClient.post('/auth/signup', userData);
-    return response.data;
+  signup: async (payload) => {
+    const res = await apiClient.post(AUTH_ENDPOINTS.SIGNUP, payload);
+    return res.data.data;
+  },
+
+  logout: async () => {
+    const res = await apiClient.post(AUTH_ENDPOINTS.LOGOUT);
+    return res.data.data;
   },
 
   getProfile: async () => {
-    const response = await apiClient.get('/auth/profile');
-    return response.data;
+    const res = await apiClient.get(AUTH_ENDPOINTS.VALIDATE);
+    return res.data.data;
   },
 };
 

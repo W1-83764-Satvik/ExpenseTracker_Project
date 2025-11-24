@@ -1,8 +1,10 @@
-import jwtDecode from 'jwt-decode';
-import { ACCESS_TOKEN_KEY } from './constants';
-import { getItem } from './storage';
+// utils/authHelpers.js
 
-// Decode JWT and extract payload
+import jwtDecode from "jwt-decode";
+import { getAccessToken } from "./storage";
+import { TOKEN_REFRESH_BUFFER } from "./constants";
+
+// --- Decode JWT payload safely ---
 export const decodeToken = (token) => {
   try {
     return jwtDecode(token);
@@ -11,20 +13,23 @@ export const decodeToken = (token) => {
   }
 };
 
-// Check if token is expired
+// --- Check if token is expired (with buffer) ---
 export const isTokenExpired = (token) => {
   const decoded = decodeToken(token);
-  if (!decoded || !decoded.exp) return true;
+  if (!decoded?.exp) return true;
 
-  const now = Date.now() / 1000;
-  return decoded.exp < now;
+  const expiryTime = decoded.exp * 1000; // exp is in seconds → convert to ms
+  const now = Date.now();
+
+  // consider token "expired" if within buffer range
+  return expiryTime - now < TOKEN_REFRESH_BUFFER;
 };
 
-// Get user details from token (fallback to stored one)
+// --- Extract user info from token (fallback to stored one) ---
 export const getUserFromToken = () => {
-  const token = getItem(ACCESS_TOKEN_KEY);
+  const token = getAccessToken();
   if (!token) return null;
 
   const decoded = decodeToken(token);
-  return decoded ? decoded.sub || decoded.username || null : null;
+  return decoded?.sub || decoded?.username || decoded?.email || null;
 };

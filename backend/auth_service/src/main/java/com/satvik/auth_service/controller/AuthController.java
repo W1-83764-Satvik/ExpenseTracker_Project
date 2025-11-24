@@ -3,6 +3,7 @@ package com.satvik.auth_service.controller;
 import com.satvik.auth_service.dto.authRequest.LoginRequestDto;
 import com.satvik.auth_service.dto.authRequest.UserInfoDto;
 import com.satvik.auth_service.dto.authResponse.JwtResponseDto;
+import com.satvik.auth_service.dto.authResponse.MeResponseDto;
 import com.satvik.auth_service.dto.responseentitydto.ApiResponse;
 import com.satvik.auth_service.entities.RefreshToken;
 import com.satvik.auth_service.entities.UserInfo;
@@ -134,4 +135,48 @@ public class AuthController {
             );
 
     }
+
+    // GET CURRENT AUTHENTICATED USER
+    @GetMapping("/me")
+    public ResponseEntity<ApiResponse<MeResponseDto>> getCurrentUser(Authentication authentication) {
+        LocalDateTime now = LocalDateTime.now();
+
+        if (authentication == null || !authentication.isAuthenticated()) {
+            log.warn("Unauthenticated access to /auth/v1/me");
+            ApiResponse<MeResponseDto> response = ApiResponse.<MeResponseDto>builder()
+                    .status(HttpStatus.UNAUTHORIZED.value())
+                    .message("User is not authenticated")
+                    .timestamp(now)
+                    .build();
+
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+        }
+
+        // principal comes from SecurityContext (set by your JWT filter)
+        UserInfo user = (UserInfo) authentication.getPrincipal();
+
+        log.info("Fetching /me for user: {}", user.getEmail());
+
+        MeResponseDto meResponse = MeResponseDto.builder()
+                .id(user.getUserId())
+                .username(user.getUsername())
+                .email(user.getEmail())
+                .roles(
+                        user.getAuthorities()
+                                .stream()
+                                .map(grantedAuthority -> grantedAuthority.getAuthority())
+                                .collect(java.util.stream.Collectors.toSet())
+                )
+                .build();
+
+        ApiResponse<MeResponseDto> response = ApiResponse.<MeResponseDto>builder()
+                .status(HttpStatus.OK.value())
+                .message("Current user details fetched successfully")
+                .data(meResponse)
+                .timestamp(now)
+                .build();
+
+        return ResponseEntity.ok(response);
+    }
+
 }

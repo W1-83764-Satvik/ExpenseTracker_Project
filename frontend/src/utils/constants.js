@@ -1,6 +1,7 @@
 // utils/constants.js
 
-export const BASE_URL = "http://localhost:7777"; 
+// --- Base URL ---
+export const BASE_URL = "http://localhost:7777";
 
 // --- API Endpoints ---
 export const AUTH_ENDPOINTS = {
@@ -19,8 +20,8 @@ export const TOKEN_KEYS = {
 };
 
 // --- Token Expiry Buffer (in ms) ---
-// To refresh 1 minute before actual expiry
-export const TOKEN_REFRESH_BUFFER = 60 * 1000;
+// Used to refresh token slightly before real expiry
+export const TOKEN_REFRESH_BUFFER = 60 * 1000; // 1 min before expiry
 
 // --- Other Constants ---
 export const REQUEST_TIMEOUT = 10000; // 10s axios timeout
