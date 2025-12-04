@@ -40,7 +40,7 @@ public class JwtController {
 
                     JwtResponseDto jwtResponse = JwtResponseDto.builder()
                             .username(user.getUsername())
-                            .token(newToken)
+                            .accessToken(newToken)
                             .refreshToken(refreshTokenStr)
                             .build();
 

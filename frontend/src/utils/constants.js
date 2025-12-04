@@ -8,6 +8,7 @@ export const AUTH_ENDPOINTS = {
   SIGNUP: "/auth/v1/signup",
   SIGNIN: "/auth/v1/signin",
   LOGOUT: "/auth/v1/logout",
+  ME: "/auth/v1/me",
   REFRESH: "/jwt/v1/refresh",
   VALIDATE: "/jwt/v1/validate-token",
 };
@@ -16,7 +17,7 @@ export const AUTH_ENDPOINTS = {
 export const TOKEN_KEYS = {
   ACCESS: "access_token",
   REFRESH: "refresh_token",
-  USER: "user_data",
+  USER: "user"
 };
 
 // --- Token Expiry Buffer (in ms) ---

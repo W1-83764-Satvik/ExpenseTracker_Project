@@ -1,5 +1,6 @@
 import apiClient from "./axios/axiosInstance";
 import { AUTH_ENDPOINTS } from "../utils/constants";
+import { getAccessToken } from "../utils/storage";
 
 const authApi = {
   login: async (credentials) => {
@@ -17,8 +18,19 @@ const authApi = {
     return res.data.data;
   },
 
-  getProfile: async () => {
-    const res = await apiClient.get(AUTH_ENDPOINTS.VALIDATE);
+getProfile: async () => {
+  const accessToken = getAccessToken();
+  const res = await apiClient.get(AUTH_ENDPOINTS.VALIDATE, {
+    params: {
+      token: accessToken
+    }
+  });
+  return res.data.data;
+},
+
+
+   me: async () => {
+    const res = await apiClient.get(AUTH_ENDPOINTS.ME);
     return res.data.data;
   },
 };

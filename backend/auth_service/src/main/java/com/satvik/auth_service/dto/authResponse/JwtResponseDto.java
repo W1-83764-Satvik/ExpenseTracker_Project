@@ -10,11 +10,13 @@ import lombok.*;
 @Builder
 public class JwtResponseDto {
 
-    @NotBlank(message = "Username cannot be blank")
+    @NotBlank(message = "email cannot be blank")
+    private String email;
+       @NotBlank(message = "Username cannot be blank")
     private String username;
 
     @NotBlank(message = "Access token cannot be blank")
-    private String token;
+    private String accessToken;
 
     @NotBlank(message = "Refresh token cannot be blank")
     private String refreshToken;

@@ -26,7 +26,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         return http.csrf(AbstractHttpConfigurer :: disable)
-                .cors(AbstractHttpConfigurer :: disable)
+                .cors(cors -> {})
                 .authorizeHttpRequests(
                         auth -> auth.requestMatchers("/check", "/auth/v1/signup", "/auth/v1/signin", "/jwt/v1/refresh", "/jwt/v1/validate-token")
                                 .permitAll()
@@ -56,5 +56,21 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
+
+    @Bean
+    public org.springframework.web.cors.CorsConfigurationSource corsConfigurationSource() {
+        var config = new org.springframework.web.cors.CorsConfiguration();
+
+        config.setAllowCredentials(true);
+        config.addAllowedOrigin("http://localhost:3000"); // React local
+        config.addAllowedOrigin("http://localhost:5173"); // Vite local
+        config.addAllowedMethod("*");
+        config.addAllowedHeader("*");
+
+        var source = new org.springframework.web.cors.UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return source;
+    }
+
 
 }

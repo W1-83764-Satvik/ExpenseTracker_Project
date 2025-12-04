@@ -54,7 +54,8 @@ public class AuthController {
 
             JwtResponseDto jwtResponse = JwtResponseDto.builder()
                     .username(userInfoDto.getUsername())
-                    .token(jwtToken)
+                    .email(userInfoDto.getEmail())
+                    .accessToken(jwtToken)
                     .refreshToken(refreshToken.getRefreshToken())
                     .build();
 
@@ -101,7 +102,8 @@ public class AuthController {
 
             JwtResponseDto jwtResponse = JwtResponseDto.builder()
                     .username(user.getUsername())
-                    .token(jwtToken)
+                    .email(user.getEmail())
+                    .accessToken(jwtToken)
                     .refreshToken(refreshToken.getRefreshToken())
                     .build();
 
@@ -159,8 +161,8 @@ public class AuthController {
 
         MeResponseDto meResponse = MeResponseDto.builder()
                 .id(user.getUserId())
-                .username(user.getUsername())
-                .email(user.getEmail())
+                .username(user.getSubject())
+                .email(user.getUsername())
                 .roles(
                         user.getAuthorities()
                                 .stream()
