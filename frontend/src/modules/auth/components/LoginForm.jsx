@@ -25,7 +25,7 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-200">
+    <div className="flex justify-center items-center min-h-screen overflow-x-hidden">
       <form
         onSubmit={handleSubmit}
         className="w-full max-w-sm  shadow-lg rounded-lg p-6 space-y-4"
