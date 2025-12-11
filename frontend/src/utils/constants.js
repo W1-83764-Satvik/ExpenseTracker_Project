@@ -13,6 +13,13 @@ export const AUTH_ENDPOINTS = {
   VALIDATE: "/jwt/v1/validate-token",
 };
 
+export const EXPENSE_ENDPOINTS = {
+  ADD_CATEGORY : "/api/categories/v1/addcategory",
+  GET_ALL_CATEGORIES : "/api/categories/v1/getallcategories",
+  ADD_CATEGORY : "/api/expenses/v1/addexpense",
+  ADD_CATEGORY : "/api/expenses/v1/getallexpenses",
+}
+
 // --- Token Storage Keys ---
 export const TOKEN_KEYS = {
   ACCESS: "access_token",

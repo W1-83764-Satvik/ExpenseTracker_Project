@@ -70,10 +70,6 @@ public class TokenService {
         return createToken(claims, username, jwtConfig.getAccessTokenExpiry());
     }
 
-    public String generateRefreshToken(String username) {
-        return createToken(Collections.emptyMap(), username, jwtConfig.getRefreshTokenExpiry());
-    }
-
     private String createToken(Map<String, Object> claims, String username, java.time.Duration duration) {
         return Jwts.builder()
                 .setClaims(claims)
@@ -82,5 +78,9 @@ public class TokenService {
                 .setExpiration(Date.from(Instant.now().plus(duration)))
                 .signWith(getSignKey(), SignatureAlgorithm.HS256)
                 .compact();
+    }
+
+    public String generateRefreshToken(String username) {
+        return createToken(Collections.emptyMap(), username, jwtConfig.getRefreshTokenExpiry());
     }
 }
