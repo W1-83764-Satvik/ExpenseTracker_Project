@@ -14,11 +14,15 @@ export const AUTH_ENDPOINTS = {
 };
 
 export const EXPENSE_ENDPOINTS = {
-  ADD_CATEGORY : "/api/categories/v1/addcategory",
-  GET_ALL_CATEGORIES : "/api/categories/v1/getallcategories",
-  ADD_CATEGORY : "/api/expenses/v1/addexpense",
-  ADD_CATEGORY : "/api/expenses/v1/getallexpenses",
-}
+  // Categories
+  ADD_CATEGORY: "/api/categories/v1/addcategory",
+  GET_ALL_CATEGORIES: "/api/categories/v1/getallcategories",
+
+  // Expenses
+  ADD_EXPENSE: "/api/expenses/v1/addexpense",
+  GET_ALL_EXPENSES: "/api/expenses/v1/getallexpenses",
+};
+
 
 // --- Token Storage Keys ---
 export const TOKEN_KEYS = {
